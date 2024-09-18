@@ -1,9 +1,10 @@
+#!/bin/bash
+
 PROJECT_PATH="$1"
-PROJECT_NAME=$(basename "$PROJECT_PATH")
-ENV_PATH="$HOME/projects/$PROJECT_NAME/env/bin/activate"
+ENV_PATH="$PROJECT_PATH/env"
 
 if [ -f "$ENV_PATH" ]; then
-    source "$ENV_PATH"
+    tmux send-keys "source ""$ENV_PATH"/bin/activate""
 else
     true
 fi
