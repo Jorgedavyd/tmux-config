@@ -2,10 +2,16 @@
 
 PROJECT_PATH="$1"
 ENV_PATH="$PROJECT_PATH/env"
+PROJECT_NAME=$(basename $PROJECT_PATH)
 
-if [ -f "$ENV_PATH" ]; then
-    tmux send-keys "source ""$ENV_PATH"/bin/activate""
-else
-    true
-fi
+main () {
+    if [[ -d "$ENV_PATH" ]]; then
+        tmux send-keys -t $PROJECT_NAME "source env/bin/activate" C-m
+        tmux send-keys -t $PROJECT_NAME "clear" C-m
+    else
+        tmux send-keys -t $PROJECT_NAME "python -m venv env" C-m
+        main
+    fi
+}
 
+main
